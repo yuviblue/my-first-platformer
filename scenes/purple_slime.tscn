@@ -1,0 +1,92 @@
+[gd_scene load_steps=11 format=3 uid="uid://bxtna76vec2q3"]
+
+[ext_resource type="Script" path="res://scripts/PurpleSlime.cs" id="1_3pyw2"]
+[ext_resource type="Texture2D" uid="uid://cdyhj347cilpx" path="res://assets/sprites/slime_purple.png" id="1_x36h8"]
+[ext_resource type="PackedScene" uid="uid://j2vh11t3kin2" path="res://scenes/kill_player.tscn" id="3_ueyhk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mp467"]
+atlas = ExtResource("1_x36h8")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4u3nf"]
+atlas = ExtResource("1_x36h8")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by8qy"]
+atlas = ExtResource("1_x36h8")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osnwu"]
+atlas = ExtResource("1_x36h8")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oaxbw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mp467")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4u3nf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by8qy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osnwu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uccy4"]
+radius = 5.0
+height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ol5m3"]
+size = Vector2(16, 14)
+
+[node name="PurpleSlime" type="CharacterBody2D"]
+z_index = 3
+script = ExtResource("1_3pyw2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_oaxbw")
+autoplay = "default"
+frame = 3
+frame_progress = 0.822034
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+position = Vector2(0, -6)
+shape = SubResource("CapsuleShape2D_uccy4")
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(9, 0)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(-9, 0)
+
+[node name="RayCastDownRight" type="RayCast2D" parent="."]
+position = Vector2(10, -9)
+target_position = Vector2(0, 11)
+
+[node name="RayCastDownLeft" type="RayCast2D" parent="."]
+position = Vector2(-10, -9)
+target_position = Vector2(0, 11)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_ol5m3")
+debug_color = Color(1, 0.00536056, 0.0606623, 0.42)
+
+[node name="KillPlayer" parent="." instance=ExtResource("3_ueyhk")]
+
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
