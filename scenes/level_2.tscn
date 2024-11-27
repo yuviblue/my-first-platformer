@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=4 uid="uid://dul36r7xfnxh5"]
 
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_25lo1"]
-[ext_resource type="Texture2D" uid="uid://c63w3gcldpvmi" path="res://assets/sprites/world_tileset.png" id="2_kxpxg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/world_tileset.png" id="2_kxpxg"]
 [ext_resource type="PackedScene" uid="uid://cp3lolqdxrepi" path="res://scenes/player.tscn" id="3_1jwjx"]
 [ext_resource type="PackedScene" uid="uid://c8aj5v1lno7s6" path="res://scenes/killzone.tscn" id="4_og2u8"]
-[ext_resource type="PackedScene" uid="uid://bxtna76vec2q3" path="res://scenes/purple_slime.tscn" id="6_ykujm"]
-[ext_resource type="FontFile" uid="uid://s74lqcjp47t7" path="res://assets/fonts/PixelOperator8.ttf" id="9_n1p3b"]
+[ext_resource type="PackedScene" uid="uid://bxtna76vec2q3" path="res://scenes/slime_enemy.tscn" id="6_ykujm"]
+[ext_resource type="FontFile" path="res://assets/fonts/PixelOperator8.ttf" id="9_n1p3b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fvn3g"]
 texture = ExtResource("2_kxpxg")

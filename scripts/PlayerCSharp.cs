@@ -1,19 +1,40 @@
 using Godot;
-using System;
-using System.Numerics;
 
 public partial class PlayerCSharp : CharacterBody2D
 {
-	public const float Speed = 130.0f;
-	public const float JumpVelocity = -270.0f;
+	public const float Speed = 200.0f;
+	public const float JumpVelocity = -350.0f;
 	private AnimatedSprite2D sprite = null;
 	private Timer coyoteTimer = null;
+	private Timer deathTimer = null;
+	private CollisionShape2D collision = null;
 	public bool Move {get; set;} = true;
+	public bool IsAlive{get; set;} = true;
 	public override void _Ready()
 	{
 		coyoteTimer = GetNode<Timer>("CoyoteTimer");
+		deathTimer = GetNode<Timer>("DeathTimer");
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		collision = GetNode<CollisionShape2D>("CollisionShape2DFrog");
+		collision.Disabled = false;
 	}
+
+	public void Kill()
+	{
+		deathTimer.Start();
+		collision.SetDeferred("disabled", true);
+    	sprite.Play("hit");
+    }
+
+
+	//Resets game when the timer ends
+	public void _on_death_timer_timeout()
+	{
+		GetTree().ReloadCurrentScene();	
+	}
+
+    
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Godot.Vector2 velocity = Velocity;
@@ -21,13 +42,14 @@ public partial class PlayerCSharp : CharacterBody2D
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * (float)delta;
+			velocity += GetGravity() * (float)delta;	
 		}
 
 		// Handle Jump.
 		if (Input.IsActionJustPressed("jump") && (IsOnFloor() || !coyoteTimer.IsStopped()))
 		{
 			velocity.Y = JumpVelocity;
+			sprite.Play("jump");		
 		}
 
 		// Get the input direction:(-1,0,1).
@@ -45,7 +67,11 @@ public partial class PlayerCSharp : CharacterBody2D
 		}
 
 		// Play animations
-		if(IsOnFloor())
+		if(!IsAlive)
+		{
+			sprite.Play("hit");
+		}
+		else if(IsOnFloor())
 		{
 			if(direction.X == 0)
 			{
@@ -56,13 +82,19 @@ public partial class PlayerCSharp : CharacterBody2D
 				sprite.Play("run");
 			}
 		}
+		else if(velocity.Y < 0)	
+		{	
+			sprite.Play("jump");
+			
+		}
 		else
 		{
-			sprite.Play("jump");
+			sprite.Play("fall");	
 		}
+		
 
 		// Handle the movement/deceleration
-		if (direction != Godot.Vector2.Zero)
+		if (direction != Vector2.Zero)
 		{
 			velocity.X = direction.X * Speed;
 		}
