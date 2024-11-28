@@ -4,6 +4,7 @@ public partial class PlayerCSharp : CharacterBody2D
 {
 	public const float Speed = 200.0f;
 	public const float JumpVelocity = -350.0f;
+	public const float Acceleration = 6;
 	private AnimatedSprite2D sprite = null;
 	private Timer coyoteTimer = null;
 	private Timer deathTimer = null;
@@ -27,6 +28,7 @@ public partial class PlayerCSharp : CharacterBody2D
     }
 
 
+
 	//Resets game when the timer ends
 	public void _on_death_timer_timeout()
 	{
@@ -37,7 +39,7 @@ public partial class PlayerCSharp : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Godot.Vector2 velocity = Velocity;
+		Vector2 velocity = Velocity;
 
 		// Add the gravity.
 		if (!IsOnFloor())
@@ -96,7 +98,7 @@ public partial class PlayerCSharp : CharacterBody2D
 		// Handle the movement/deceleration
 		if (direction != Vector2.Zero)
 		{
-			velocity.X = direction.X * Speed;
+			velocity.X = Mathf.MoveToward(Velocity.X, direction.X * Speed, Acceleration);
 		}
 		else if (Move)
 		{
