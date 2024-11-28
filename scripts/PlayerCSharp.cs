@@ -9,7 +9,7 @@ public partial class PlayerCSharp : CharacterBody2D
 	private Timer deathTimer = null;
 	private CollisionShape2D collision = null;
 	public bool Move {get; set;} = true;
-	public bool IsAlive{get; set;} = true;
+	private bool IsAlive{get; set;} = true;
 	public override void _Ready()
 	{
 		coyoteTimer = GetNode<Timer>("CoyoteTimer");
@@ -23,7 +23,7 @@ public partial class PlayerCSharp : CharacterBody2D
 	{
 		deathTimer.Start();
 		collision.SetDeferred("disabled", true);
-    	sprite.Play("hit");
+    	IsAlive = false;
     }
 
 
@@ -66,7 +66,7 @@ public partial class PlayerCSharp : CharacterBody2D
 			sprite.FlipH = true;
 		}
 
-		// Play animations
+		// Handles animations.
 		if(!IsAlive)
 		{
 			sprite.Play("hit");

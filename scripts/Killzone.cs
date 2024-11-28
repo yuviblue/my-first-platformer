@@ -9,7 +9,7 @@ public partial class Killzone : Area2D
 	private void _on_body_entered(PlayerCSharp body)
 	{
 		GD.Print("You died!");
-		body.IsAlive = false;
+		//body.IsAlive = false;
 		body.Kill();
 	}
 }

@@ -4,13 +4,14 @@ using System;
 public partial class SlimeEnemy : CharacterBody2D
 {
 	public const float Speed = 60.0f;
-	RayCast2D rayCastRight = null;
-	RayCast2D rayCastLeft = null;
-	RayCast2D rayCastDownRight = null;
-	RayCast2D rayCastDownLeft = null;
-	AnimatedSprite2D sprite = null;
-	Area2D killzone = null;
-	int direction = 1;
+	private int direction = 1;
+	private bool isAlive = true;
+	private RayCast2D rayCastRight = null;
+	private RayCast2D rayCastLeft = null;
+	private RayCast2D rayCastDownRight = null;
+	private RayCast2D rayCastDownLeft = null;
+	private AnimatedSprite2D sprite = null;
+	private Area2D killzone = null;
 
 	public override void _Ready()
     {
@@ -26,6 +27,10 @@ public partial class SlimeEnemy : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
+		if(!isAlive)
+		{
+			sprite.RotationDegrees += -direction * (float)delta * 360;
+		}
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
@@ -71,10 +76,10 @@ public partial class SlimeEnemy : CharacterBody2D
 		{
 			Vector2 playervelocity = body.Velocity;
 			float y_delta = Position.Y - body.Position.Y;
-			GD.Print(y_delta);
-			if(y_delta > 20)
+			if(y_delta > 16)
 			{	
 				sprite.Play("death");
+				isAlive = false;
 				GetNode("CollisionShape2D").SetDeferred("disabled", true);
 				playervelocity.Y = -350.0f;
 				body.Velocity = playervelocity;				 
@@ -88,7 +93,7 @@ public partial class SlimeEnemy : CharacterBody2D
 
 				body.Velocity = playervelocity;
 
-				body.IsAlive = false;
+				//body.IsAlive = false;
 			}
 		}
 	}

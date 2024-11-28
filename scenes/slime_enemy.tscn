@@ -147,11 +147,11 @@ shape = SubResource("CapsuleShape2D_uccy4")
 
 [node name="RayCastRight" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
-target_position = Vector2(24, 0)
+target_position = Vector2(22, 0)
 
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
-target_position = Vector2(-24, 0)
+target_position = Vector2(-22, 0)
 
 [node name="RayCastDownRight" type="RayCast2D" parent="."]
 position = Vector2(21, -7)
