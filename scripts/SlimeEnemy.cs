@@ -64,10 +64,10 @@ public partial class SlimeEnemy : CharacterBody2D
 		MoveAndSlide();
 
 		//removes the enemy afters it dies.
-		// if(Position.Y > killzone.Position.Y)
-		// {
-		// 	QueueFree();
-		// }
+		if(Position.Y > killzone.Position.Y)
+		{
+			QueueFree();
+		}
 	}
 
 	private void _on_hurtbox_body_entered(PlayerCSharp body)
@@ -90,10 +90,7 @@ public partial class SlimeEnemy : CharacterBody2D
 				body.Kill();
 				playervelocity.X = Velocity.X * 2;
 				playervelocity.Y = -150.0f;
-
 				body.Velocity = playervelocity;
-
-				//body.IsAlive = false;
 			}
 		}
 	}
